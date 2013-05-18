@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Perform necessary ralph removal steps
+# after package is uninstalled.
+#
+
+echo "ralph has been uninstalled!"
+
+exit 0
