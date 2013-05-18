@@ -10,7 +10,7 @@ version "1.2.0-py#{python}"
 
 dependency "openssl"
 dependency "zlib"
-#. dependency "sqlite3"
+dependency "sqlite"
 dependency "bzip2"
 
 pyrun_platform_spec = "#{OHAI['os']}-#{OHAI['kernel']['machine']}"
