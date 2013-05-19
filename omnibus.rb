@@ -29,12 +29,11 @@ module ::Omnibus
       "#{source_dir}/#{@relative_path || safe_name}"
     end
 
-    def dependency(val)
-      val = val.name if val.is_a?(self.class)
-      @dependencies << val
-    end
+    def inline(name=nil, &block)
+      @inline ||= {}
+      return @inline unless name
 
-    def inline(name, &block)
+      # Create a child Software instance
       child = Software.new "name #{[self.name, name].join(':').inspect}",
                            @source_config,
                            project
@@ -43,10 +42,9 @@ module ::Omnibus
         build # <- this should not be necessary
         render_tasks
       end
-      (class << self ; self ; end).instance_eval do
-        define_method(name.to_sym) { child }
-      end
-      child
+
+      dependency child.name
+      @inline[name] = child
     end
   end
 end
