@@ -43,7 +43,6 @@ module ::Omnibus
         build # <- this should not be necessary
         render_tasks
       end
-      dependency(child.name)
       (class << self ; self ; end).instance_eval do
         define_method(name.to_sym) { child }
       end
