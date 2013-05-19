@@ -25,6 +25,6 @@ build do
   else               patch :source => 'Makefile-so.patch'
   end
 
-  command "make VERSION=#{version}", :env => env
+  command "make PREFIX=#{prefix} VERSION=#{version}", :env => env
   command "make install VERSION=#{version} PREFIX=#{prefix}", :env => env
 end
