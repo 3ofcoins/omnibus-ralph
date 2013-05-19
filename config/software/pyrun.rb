@@ -24,13 +24,13 @@ prefix="#{install_dir}/embedded"
 libdir="#{prefix}/lib"
 
 env = {
-  "LDFLAGS" => "-L#{libdir} -R#{libdir} -I#{prefix}/include",
-  "CFLAGS" => "-L#{libdir} -R#{libdir} -I#{prefix}/include",
+  "CLAGS" => "-I#{prefix}/include",
+  "LDFLAGS" => "-Wl,-rpath,#{install_dir}/embedded/lib -L#{libdir}",
   "LD_RUN_PATH" => libdir
 }
 
 build do
-  command "make PYTHONFULLVERSION=#{python.version} PREFIX=#{install_dir}/embedded PYTHONTARBALL=#{python.project_file}",
+  command "make install PYTHONFULLVERSION=#{python.version} PREFIX=#{install_dir}/embedded PYTHONTARBALL=#{python.project_file}",
           :cwd => "#{project_dir}/PyRun",
           :env => env
 end
