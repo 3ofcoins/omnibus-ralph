@@ -8,22 +8,39 @@ module ::Omnibus
            end )
   end
 
-  class NetFetcher
-    alias_method :orig_extract, :extract
-    def extract
-      if name == 'pyrun'
-        p 'pyrun!'
-        begin
-          _source_dir = @source_dir
-          @source_dir = project_dir
-          FileUtils::mkdir_p project_dir
-          orig_extract
-        ensure
-          @source_dir = _source_dir
-        end
-      else
-        orig_extract
+  class Software
+    class Inline < Software
+      def safe_name
+        @safe_name ||= @name.gsub(':', '__')
       end
+
+      def manifest_file
+        manifest_file_from_name(safe_name)
+      end
+
+      def fetch_file
+        "#{build_dir}/#{safe_name}.fetch"
+      end
+
+      def project_dir
+        "#{source_dir}/#{@relative_path || safe_name}"
+      end
+    end
+
+    def inline(name, &block)
+      child = Inline.new "name #{[self.name, name].join(':').inspect}",
+                         @source_config,
+                         project
+      child.instance_eval(&block)
+      child.instance_eval do
+        build # <- this should not be necessary
+        render_tasks
+      end
+      dependency(child.name)
+      (class << self ; self ; end).instance_eval do
+        define_method(name.to_sym) { child }
+      end
+      child
     end
   end
 end
