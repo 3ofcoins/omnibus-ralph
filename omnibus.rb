@@ -9,28 +9,35 @@ module ::Omnibus
   end
 
   class Software
-    class Inline < Software
-      def safe_name
-        @safe_name ||= @name.gsub(':', '__')
-      end
+    def safe_name_from(name)
+      name.gsub(':', '__')
+    end
 
-      def manifest_file
-        manifest_file_from_name(safe_name)
-      end
+    def manifest_file_from_name(software_name)
+      "#{build_dir}/#{safe_name_from(software_name)}.manifest"
+    end
 
-      def fetch_file
-        "#{build_dir}/#{safe_name}.fetch"
-      end
+    def safe_name
+      @safe_name ||= safe_name_from(@name)
+    end
 
-      def project_dir
-        "#{source_dir}/#{@relative_path || safe_name}"
-      end
+    def fetch_file
+      "#{build_dir}/#{safe_name}.fetch"
+    end
+
+    def project_dir
+      "#{source_dir}/#{@relative_path || safe_name}"
+    end
+
+    def dependency(val)
+      val = val.name if val.is_a?(self.class)
+      @dependencies << val
     end
 
     def inline(name, &block)
-      child = Inline.new "name #{[self.name, name].join(':').inspect}",
-                         @source_config,
-                         project
+      child = Software.new "name #{[self.name, name].join(':').inspect}",
+                           @source_config,
+                           project
       child.instance_eval(&block)
       child.instance_eval do
         build # <- this should not be necessary
