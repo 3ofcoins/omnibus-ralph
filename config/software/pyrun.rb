@@ -32,26 +32,27 @@ dependency "openssl"
 dependency "zlib"
 dependency "sqlite"
 dependency "bzip2"
+dependency "gdbm"
+dependency "libedit"
 
 prefix="#{install_dir}/embedded"
 libdir="#{prefix}/lib"
 
 env = {
+  'PKG_CONFIG_PATH' => "#{libdir}/pkgconfig",
   "CPPFLAGS" => "-I#{prefix}/include",
   "LDFLAGS" => "-L#{libdir}",
   "MACOSX_DEPLOYMENT_TARGET" => '10.5'
 }
 
 build do
-  command "(pwd ; env | sort ) > /tmp/build.env",
-          :cwd => "#{project_dir}/PyRun",
-          :env => env
   command "make PREFIX=#{install_dir}/embedded PYTHONTARBALL=#{inline['python'].project_file}",
           :cwd => "#{project_dir}/PyRun",
           :env => env
   command "make install PREFIX=#{install_dir}/embedded",
           :cwd => "#{project_dir}/PyRun",
           :env => env
+  command "rm #{install_dir}/embedded/lib/python*/*/_tkinter.so"
   command "#{install_dir}/embedded/bin/pyrun setup.py install",
           :cwd => inline['distribute'].project_dir,
           :env => env

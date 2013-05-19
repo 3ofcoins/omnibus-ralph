@@ -9,10 +9,11 @@ build_version   Omnibus::BuildVersion.new.semver
 build_iteration 1
 
 dependency "preparation"
-dependency "pyrun"
 
-# ralph dependencies/components
-# dependency "somedep"
+dependency "ralph"
+dependency "runit"
+# dependency "redis"
+# mysql?
 
 # version manifest file
 dependency "version-manifest"
