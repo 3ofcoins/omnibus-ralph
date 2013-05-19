@@ -5,4 +5,5 @@ gem 'omnibus-software', :git => 'git://github.com/opscode/omnibus-software.git',
 
 group :development do
   gem 'pry'
+  gem 'pry-rescue'
 end

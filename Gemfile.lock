@@ -11,6 +11,7 @@ GEM
     coderay (1.0.9)
     fpm (0.3.11)
       json
+    interception (0.3)
     ipaddress (0.8.0)
     json (1.8.0)
     method_source (0.8.1)
@@ -39,6 +40,9 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-rescue (1.1.0)
+      interception (>= 0.3)
+      pry
     rake (10.0.4)
     slop (3.4.4)
     systemu (2.5.2)
@@ -54,3 +58,4 @@ DEPENDENCIES
   omnibus (~> 1.0.0)
   omnibus-software!
   pry
+  pry-rescue
