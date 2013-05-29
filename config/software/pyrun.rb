@@ -28,6 +28,7 @@ end
 
 version "#{@pyrun_version ||= version}+py#{inline['python'].version}"
 
+dependency "libgcc"
 dependency "openssl"
 dependency "zlib"
 dependency "sqlite"
