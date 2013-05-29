@@ -47,6 +47,12 @@ env = {
 }
 
 build do
+  command "make PREFIX=#{install_dir}/embedded PYTHONTARBALL=#{inline['python'].project_file} sources",
+          :cwd => "#{project_dir}/PyRun",
+          :env => env
+  # http://trac.macports.org/browser/trunk/dports/lang/python27/files/patch-libedit.diff
+  # FIXME: there's no :cwd for patch
+  command "patch -p0 -d #{project_dir}/PyRun/Python-* < #{patch_dir}/Python2.7-libedit.patch"
   command "make PREFIX=#{install_dir}/embedded PYTHONTARBALL=#{inline['python'].project_file}",
           :cwd => "#{project_dir}/PyRun",
           :env => env
