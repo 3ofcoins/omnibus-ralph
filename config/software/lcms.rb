@@ -1,10 +1,10 @@
-name "liblcms"
-version "2.4"
+name "lcms"
+version "1.19"
 
-source :url => "http://downloads.sourceforge.net/project/lcms/lcms/#{version}/lcms2-#{version}.tar.gz",
-       :md5 => "861ef15fa0bc018f9ddc932c4ad8b6dd"
+source :url => "http://downloads.sourceforge.net/project/#{name}/#{name}/#{version}/#{name}-#{version}.tar.gz",
+       :md5 => "8af94611baf20d9646c7c2c285859818"
 
-relative_path "lcms2-#{version}"
+relative_path "#{name}-#{version}"
 
 env = {
   "LDFLAGS" => "-L#{install_dir}/embedded/lib",
