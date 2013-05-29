@@ -9,10 +9,10 @@ dependency "libyaml"            # pyyaml
 dependency "gmp"                # pycrypto
 
 # Imaging stuff
+dependency "lcms"
 dependency "libjpeg"
 dependency "libpng"
 dependency "libtiff"
-dependency "liblcms"
 dependency "freetype"
 
 prefix="#{install_dir}/embedded"
