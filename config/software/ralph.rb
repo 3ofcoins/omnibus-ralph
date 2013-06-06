@@ -31,8 +31,13 @@ env = {
 build do
   FileUtils::mkdir_p env['PIP_DOWNLOAD_CACHE']
   FileUtils::mkdir_p env['TMPDIR']
-  command "#{install_dir}/embedded/bin/pip install ralph==#{version}", :env => env
+
+  # We need to provide `--prefix` to `setup.py install`, as some of
+  # `setup.py` scripts do `reload(sys)`, which resets `sys.prefix` to
+  # pyrun's temporary install dir rather than pyrun's actual prefix.
+  command "#{install_dir}/embedded/bin/pip install ralph==#{version} --install-option=--prefix=#{prefix}", :env => env
   command "#{install_dir}/embedded/bin/pip freeze > #{prefix}/pip-manifest.txt"
-  site_packages=`#{prefix}/bin/pyrun -c 'import distutils.sysconfig ; print distutils.sysconfig.get_python_lib()'`.strip
-  command "install_name_tool -change libmysqlclient.18.dylib #{prefix}/lib/libmysqlclient.18.dylib #{site_packages}/_mysql.so"
+
+  # Fix python-mysql library path
+  command "install_name_tool -change libmysqlclient.18.dylib #{prefix}/lib/libmysqlclient.18.dylib #{libdir}/python*/site-packages/_mysql.so" if platform == 'mac_os_x'
 end
