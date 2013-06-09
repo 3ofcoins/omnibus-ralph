@@ -10,10 +10,13 @@ build_iteration 1
 
 dependency "preparation"
 
-dependency "ralph"
+dependency "chef-gem"           # for embedded chef-solo
 dependency "runit"
 # dependency "redis"
+dependency "nginx"
 # mysql?
+
+dependency "ralph"
 
 # version manifest file
 dependency "version-manifest"

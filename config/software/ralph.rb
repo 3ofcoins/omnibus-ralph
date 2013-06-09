@@ -3,18 +3,13 @@ version "1.2.2"
 
 dependency "pyrun"
 
-dependency "gmp"                # pycrypto
-dependency "libxml2"            # lxml
-dependency "libxslt"            # lxml
-dependency "libyaml"            # pyyaml
-dependency "mysql"              # mysql-python
-
-# Imaging stuff
-dependency "lcms"
-dependency "libjpeg"
-dependency "libpng"
-dependency "libtiff"
-dependency "freetype"
+# Python deps that need their own libraries.
+# TODO: download these and use setup.py?
+dependency "python-lxml"
+dependency "python-mysql"
+dependency "python-pillow"
+dependency "python-pycrypto"
+dependency "python-pyyaml"
 
 prefix="#{install_dir}/embedded"
 libdir="#{prefix}/lib"
@@ -35,9 +30,20 @@ build do
   # We need to provide `--prefix` to `setup.py install`, as some of
   # `setup.py` scripts do `reload(sys)`, which resets `sys.prefix` to
   # pyrun's temporary install dir rather than pyrun's actual prefix.
-  command "#{install_dir}/embedded/bin/pip install ralph==#{version} --install-option=--prefix=#{prefix}", :env => env
+  command "#{install_dir}/embedded/bin/pip install ralph==#{version} django-redis-cache --install-option=--prefix=#{prefix}", :env => env
   command "#{install_dir}/embedded/bin/pip freeze > #{prefix}/pip-manifest.txt"
 
-  # Fix python-mysql library path
-  command "install_name_tool -change libmysqlclient.18.dylib #{prefix}/lib/libmysqlclient.18.dylib #{libdir}/python*/site-packages/_mysql.so" if platform == 'mac_os_x'
+  # Fix paths
+  site_packages="#{prefix}/lib/python*/site-packages"
+  command "install_name_tool -change libmysqlclient.18.dylib #{prefix}/lib/libmysqlclient.18.dylib #{site_packages}/_mysql.so" if platform == 'mac_os_x'
+
+  block do
+    %w[ settings.py util/management/commands/makeconf.py ].each do |script_path|
+      script_path = File.join(Dir[site_packages].first, 'ralph', script_path)
+      script = File.read(script_path)
+      script.gsub!('~/.ralph', "#{install_dir}/sv/ralph")
+      File.write(script_path, script)
+    end
+    FileUtils::ln_sf "#{prefix}/bin/ralph", "#{install_dir}/bin/ralph"
+  end
 end
