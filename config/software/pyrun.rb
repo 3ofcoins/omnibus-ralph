@@ -42,7 +42,7 @@ libdir="#{prefix}/lib"
 env = {
   'PKG_CONFIG_PATH' => "#{libdir}/pkgconfig",
   "CPPFLAGS" => "-I#{prefix}/include",
-  "LDFLAGS" => "-L#{libdir}",
+  "LDFLAGS" => "-Wl,-rpath,#{install_dir}/embedded/lib -L#{libdir}",
   "MACOSX_DEPLOYMENT_TARGET" => '10.5'
 }
 

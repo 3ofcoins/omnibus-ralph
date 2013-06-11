@@ -8,6 +8,7 @@ version "5.6.11"
 dependency "libedit"
 # dependency "libevent"
 dependency "openssl"
+dependency "zlib"
 
 source :url => "http://cdn.mysql.com/Downloads/MySQL-5.6/#{name}-#{version}.tar.gz",
        :md5 => "9241be729964ab4594de11baa30aec48"
@@ -18,20 +19,21 @@ prefix="#{install_dir}/embedded"
 libdir="#{prefix}/lib"
 
 env = {
-  "LDFLAGS" => "-L#{libdir} -R#{libdir} -I#{prefix}/include",
-  "CFLAGS" => "-L#{libdir} -R#{libdir} -I#{prefix}/include",
+  "LDFLAGS" => "-L#{libdir} -Wl,-rpath,#{libdir}",
+  "CPPFLAGS" => "-I#{prefix}/include",
   "LD_RUN_PATH" => libdir
 }
 
 cmake_options = [
-  "-DWITHOUT_SERVER=ON",
-  # "-DCMAKE_BUILD_TYPE=Release",
+  # "-DWITHOUT_SERVER=ON",
+  "-DCMAKE_BUILD_TYPE=Release",
   "-DCMAKE_INSTALL_PREFIX=#{prefix}",
   "-DDEFAULT_CHARSET=utf8",
   "-DDEFAULT_COLLATION=utf8_general_ci",
   "-DWITH_EXTRA_CHARSETS=complex",
   # "-DWITH_LIBEVENT=system",
-  "-DWITH_SSL=#{prefix}"
+  "-DWITH_SSL=#{prefix}",
+  "-DWITH_ZLIB=system"
 ]
 
 build_dir = File.join(project_dir, '_build')

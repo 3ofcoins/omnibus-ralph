@@ -82,7 +82,8 @@ Vagrant.configure("2") do |config|
     }
 
     chef.run_list = [
-      "recipe[omnibus::default]"
+      "recipe[omnibus::default]",
+      "recipe[cmake]"
     ]
   end
 
