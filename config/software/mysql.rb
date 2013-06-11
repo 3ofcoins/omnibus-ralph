@@ -33,7 +33,8 @@ cmake_options = [
   "-DWITH_EXTRA_CHARSETS=complex",
   # "-DWITH_LIBEVENT=system",
   "-DWITH_SSL=#{prefix}",
-  "-DWITH_ZLIB=system"
+  "-DWITH_ZLIB=system",
+  "-DZLIB_ROOT=#{prefix}"
 ]
 
 build_dir = File.join(project_dir, '_build')
