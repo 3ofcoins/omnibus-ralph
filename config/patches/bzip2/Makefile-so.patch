@@ -50,8 +50,8 @@
  	chmod a+r $(PREFIX)/lib/libbz2.a
 +	cp -f libbz2.so.1.0.2 $(PREFIX)/lib
 +	chmod a+r $(PREFIX)/lib/libbz2.so.1.0.2
-+	ln -s libbz2.so.1.0.2 $(PREFIX)/lib/libbz2.so.1
-+	ln -s libbz2.so.1.0.2 $(PREFIX)/lib/libbz2.so
++	ln -s -f libbz2.so.1.0.2 $(PREFIX)/lib/libbz2.so.1
++	ln -s -f libbz2.so.1.0.2 $(PREFIX)/lib/libbz2.so
  	cp -f bzgrep $(PREFIX)/bin/bzgrep
  	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzegrep
  	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzfgrep
