@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 def fork(repo)
   _local_path = Pathname.new(__FILE__).dirname.dirname.
     join("Forks/#{repo}")
-  if _local_path.exist?
+  if ENV['BUNDLE_LOCAL_FORKS'] && _local_path.exist?
     { :path => _local_path.to_s }
   else
     { :git => "git://github.com/3ofcoins/#{repo.sub('/', '-')}.git",
