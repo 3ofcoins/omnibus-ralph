@@ -8,3 +8,5 @@ files/**/cache/
 vendor/cookbooks
 *~
 /tmp
+/.kitchen
+/Berksfile.lock
