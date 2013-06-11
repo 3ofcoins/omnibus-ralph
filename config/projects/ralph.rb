@@ -12,9 +12,9 @@ dependency "preparation"
 
 dependency "chef-gem"           # for embedded chef-solo
 dependency "runit"
-# dependency "redis"
+dependency "redis"
 dependency "nginx"
-# mysql?
+dependency "mysql"
 
 dependency "ralph"
 

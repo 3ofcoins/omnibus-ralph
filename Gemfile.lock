@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: git://github.com/3ofcoins/opscode-omnibus-software.git
-  revision: 0d72e90a24f062bc5b5d960b4d023aeb11d8455f
+  revision: 1bb2ba7ea5af69697e4d37ce7297f7e097aaf424
   branch: for/omnibus-ralph
   specs:
     omnibus-software (0.0.1)
